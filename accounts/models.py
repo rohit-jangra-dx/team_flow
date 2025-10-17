@@ -21,7 +21,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("Superusers must have a password.")
         
         return self.create_user(email, username, password, **extra_fields)
-        
+    
         
 # Create your models here.
 class CustomUser(AbstractUser):
