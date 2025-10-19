@@ -3,8 +3,9 @@ from rest_framework import status, generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import RegisterSerializer, ProfileSerializer
+from .serializers import RegisterSerializer, ProfileSerializer, InboxSerializer
 from .models import CustomUser
+from workspaces.models import WorkspaceMember
 
 # Create your views here.
 class RegisterCreateView(generics.CreateAPIView):
@@ -36,3 +37,11 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     
     def get_object(self):
         return self.request.user.profile
+
+class InboxListView(generics.ListAPIView):
+    serializer_class = InboxSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return WorkspaceMember.objects.filter(user=self.request.user, is_active=False).order_by("invited_at")
+    

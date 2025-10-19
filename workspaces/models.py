@@ -14,3 +14,19 @@ class Workspace(models.Model):
     class Meta:
         unique_together = ("owner", "name")
 
+
+class WorkspaceMember(models.Model):
+    ROLE_CHOICES = [
+        ("owner", "Owner"),
+        ("admin", "Admin"),
+        ("member", "Member"),
+    ]
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="workspace_memberships")
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, related_name="memberships")
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="member")
+    invited_at = models.DateTimeField(auto_now_add=True)
+    joined_at = models.DateTimeField(blank=True, null=True)
+    is_active = models.BooleanField(default=False)  # becomes True once the invite is accepted
+
+    class Meta:
+        unique_together = ("user", "workspace")

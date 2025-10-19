@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from .models import CustomUser, Profile
+from workspaces.models import WorkspaceMember
 
 class RegisterSerializer(serializers.ModelSerializer):
 #    validation at the serializer level
@@ -39,3 +40,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             "email", "username", "full_name", "github_link", 
             "linkedin_profile", "bio"
         ]
+
+class InboxSerializer(serializers.ModelSerializer):
+    
+    class Meta: 
+        model = WorkspaceMember
+        fields = ["__all__"]
