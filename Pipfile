@@ -9,6 +9,8 @@ djangorestframework = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
 djangorestframework-simplejwt = "*"
+pytest = "*"
+pytest-django = "*"
 
 [dev-packages]
 

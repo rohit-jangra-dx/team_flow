@@ -1,11 +1,11 @@
 from django.shortcuts import get_object_or_404
 
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 
 from .models import Workspace, WorkspaceMember
-from .serializers import WorkspaceSerializer, WorkspaceMemberSerialzier
+from .serializers import WorkspaceSerializer, WorkspaceMemberSerialzier, WorkspaceMemberDetailSerializer
 from .permissions import WorkspacePermission, WorkspaceInvitePermission
 from .utils import get_workspace_from_view, get_workspace_member
 from .mixins import WorkspaceRoleCheckMixin
@@ -68,10 +68,11 @@ class WorkspaceMemberListCreateView(
         serializer.save(workspace=workspace)
 
 
-class WorkspaceMemberDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = WorkspaceMemberSerialzier
+class WorkspaceMemberDetailsView(WorkspaceRoleCheckMixin ,generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = WorkspaceMemberDetailSerializer
     permission_classes = [IsAuthenticated]
-
+    lookup_url_kwarg = "member_id"
+        
     def get_queryset(self):
         return WorkspaceMember.objects.filter(id=self.kwargs["member_id"])
 

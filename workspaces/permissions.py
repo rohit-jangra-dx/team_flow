@@ -2,18 +2,6 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 from rest_framework.exceptions import PermissionDenied
 from .utils import get_workspace_from_view, get_workspace_member
 
-class IsWorkspaceMember(BasePermission):
-    """
-    Permission that checks if the user belongs to the workspace
-    """
-
-    def has_permission(self, request, view):
-        workspace = get_workspace_from_view(view)
-        if not workspace:
-            raise PermissionDenied("Workspace not found.")
-
-        member = get_workspace_member(request.user, workspace)
-        return bool(member)
 
 class WorkspacePermission(BasePermission):
     """
