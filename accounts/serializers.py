@@ -45,4 +45,4 @@ class InboxSerializer(serializers.ModelSerializer):
     
     class Meta: 
         model = WorkspaceMember
-        fields = ["__all__"]
+        fields = "__all__"

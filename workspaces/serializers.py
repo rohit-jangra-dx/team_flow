@@ -15,7 +15,7 @@ class WorkspaceMemberSerialzier(serializers.ModelSerializer):
     class Meta:
         model = WorkspaceMember
         fields = '__all__'
-        ready_only_fields = ["id", "invited_at", "workspace"]
+        read_only_fields = ["id", "invited_at"]
         validators = [
             UniqueTogetherValidator(
                 queryset=WorkspaceMember.objects.all(),

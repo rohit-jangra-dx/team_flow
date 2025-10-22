@@ -34,7 +34,7 @@ class WorkspaceDetailsView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         workspace_pk = self.kwargs["workspace_id"]
         return Workspace.objects.filter(
-            owner=self.request.user, id=workspace_pk
+            id=workspace_pk
         ).prefetch_related("projects")
 
 
